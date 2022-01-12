@@ -22,10 +22,11 @@ function onConnect() {
   console.log("client connected");
   addresses.forEach(element => {
     client.subscribe(element + "/status");
+    message = new Paho.MQTT.Message("status");
+    message.destinationName = element+"/check";
+    client.send(message);
+    const intervalID = setInterval(myCallback, 1000*10, element);
   });
-  message = new Paho.MQTT.Message("status");
-  message.destinationName = "raspberry/check";
-  client.send(message);
 }
 
 // called when the client loses its connection
@@ -40,6 +41,7 @@ function onMessageArrived(message) {
   addresses.forEach(element => {
   if (message.destinationName == element + "/status"){
       device_map.set(element, JSON.parse(message.payloadString))
+      checkDevice(element)
   }
   });
 
@@ -48,11 +50,18 @@ function onMessageArrived(message) {
 // checking if device online
 function myCallback(element)
 {
-  let device_line = document.getElementById(element)
+  
   message = new Paho.MQTT.Message("status");
   message.destinationName = element + "/check";
   client.send(message);
   
+  checkDevice(element)
+
+  
+}
+
+function checkDevice(element){
+  let device_line = document.getElementById(element)
   if (device_map.get(element) === null){
     device_line.lastElementChild.innerHTML = "Offline"
     document.getElementById(element).lastElementChild.style.backgroundColor = "#be5151";
@@ -67,10 +76,4 @@ function myCallback(element)
     document.getElementById(element).style.borderColor = "green";
     device_map.set(element, null)
   }
-  
 }
-
-addresses.forEach(element => {
-  const intervalID = setInterval(myCallback, 1000*10, element);
-});
-

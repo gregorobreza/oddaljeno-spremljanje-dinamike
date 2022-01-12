@@ -295,7 +295,7 @@ img.user-detail {
 
 .device-status{
     display: flex;
-    border: solid #000000;
+    border: solid #be5151;
     border-radius: 30px;
     flex-direction: row;
     justify-content: space-between;
@@ -319,7 +319,7 @@ img.user-detail {
 
 .avalible{
     color:rgb(255, 255, 255);
-    background:rgb(52, 72, 99);
+    background:#be5151;
     border-radius: 10px;
     vertical-align:middle;
     padding: 10px;
@@ -358,4 +358,16 @@ img.user-detail {
 
 .no-hover:hover{
     color:#000000
+}
+
+.login-div{
+    display: flex;
+    justify-content: center;
+    padding: 10vh;
+}
+
+.login-div div{
+    background-color: #c3c4bd;
+    padding: 20px 40px 20px 40px;
+    border-radius: 20px;
 }
