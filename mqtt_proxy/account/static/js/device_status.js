@@ -1,7 +1,13 @@
 // Create a client instance
 client = new Paho.MQTT.Client("127.0.0.1", Number(9001), "device-status");
-let device_json
 
+const addresses = JSON.parse(document.getElementById('list').textContent).flat();
+
+let device_map = new Map();
+
+addresses.forEach(element => {
+  device_map.set(element, null)
+});
 // set callback handlers
 client.onConnectionLost = onConnectionLost;
 client.onMessageArrived = onMessageArrived;
@@ -14,7 +20,9 @@ client.connect({onSuccess:onConnect, userName:"gobreza", password:"Django4064"})
 function onConnect() {
   // Once a connection has been made, make a subscription and send a message.
   console.log("client connected");
-  client.subscribe("raspberry/status");
+  addresses.forEach(element => {
+    client.subscribe(element + "/status");
+  });
   message = new Paho.MQTT.Message("status");
   message.destinationName = "raspberry/check";
   client.send(message);
@@ -29,35 +37,40 @@ function onConnectionLost(responseObject) {
 
 // called when a message arrives
 function onMessageArrived(message) {
-    if (message.destinationName == "raspberry/status"){
-        device_json = JSON.parse(message.payloadString)
-        //console.log(device_json)
-    }else {
-        console.log("onMessageArrived:"+message.payloadString);
-    }
+  addresses.forEach(element => {
+  if (message.destinationName == element + "/status"){
+      device_map.set(element, JSON.parse(message.payloadString))
+  }
+  });
 
 }
 
-const value = JSON.parse(document.getElementById('hello-data').textContent);
-console.log(value)
-
-const intervalID = setInterval(myCallback, 1000*10);
-
-function myCallback()
+// checking if device online
+function myCallback(element)
 {
-  console.log("tukile")
-  console.log(device_json)
+  let device_line = document.getElementById(element)
   message = new Paho.MQTT.Message("status");
-  message.destinationName = "raspberry/check";
+  message.destinationName = element + "/check";
   client.send(message);
-  if (device_json === null){
-    console.log("disonnected");
+  
+  if (device_map.get(element) === null){
+    device_line.lastElementChild.innerHTML = "Offline"
+    document.getElementById(element).lastElementChild.style.backgroundColor = "#be5151";
+    document.getElementById(element).style.borderColor = "#be5151";
   }
   else{
-    console.log("connected")
-    device_json = null
+    document.getElementById(element).lastElementChild.innerHTML = "Online"
+    document.getElementById(element).lastElementChild.style.backgroundColor = "green"
+    document.getElementById(element).querySelector(".device-info").lastElementChild.children[0].innerHTML = "Ime gostitelja: "+ device_map.get(element)["host name"]
+    document.getElementById(element).querySelector(".device-info").lastElementChild.children[1].innerHTML = "MAC: "+ device_map.get(element)["MAC"]
+    document.getElementById(element).querySelector(".device-info").lastElementChild.children[3].innerHTML = "Oprema: "+ device_map.get(element)["card"]
+    document.getElementById(element).style.borderColor = "green";
+    device_map.set(element, null)
   }
-
   
-
 }
+
+addresses.forEach(element => {
+  const intervalID = setInterval(myCallback, 1000*10, element);
+});
+

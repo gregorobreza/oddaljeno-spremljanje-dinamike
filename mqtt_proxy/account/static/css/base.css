@@ -11,7 +11,7 @@ p {
 }
 
 a {
-    color:#12c064;
+    color:#000000;
     text-decoration:none;
 }
 
@@ -295,12 +295,16 @@ img.user-detail {
 
 .device-status{
     display: flex;
-    border: solid #21bb80;
+    border: solid #000000;
     border-radius: 30px;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
     margin: 20px 0px 20px 0;
+}
+
+.device-status:hover{
+    background-color: rgb(214, 223, 208);
 }
 
 .device-item{
@@ -310,6 +314,18 @@ img.user-detail {
 
 .status{
     flex: 0 0 50px;
+    
+}
+
+.avalible{
+    color:rgb(255, 255, 255);
+    background:rgb(52, 72, 99);
+    border-radius: 10px;
+    vertical-align:middle;
+    padding: 10px;
+    text-align: center;
+    margin-right: 30px;
+    margin-left: 30px;
 }
 
 .device-table{
@@ -338,4 +354,8 @@ img.user-detail {
 .device-info ul{
     list-style-type:none;
     padding-left: 0;
+}
+
+.no-hover:hover{
+    color:#000000
 }
