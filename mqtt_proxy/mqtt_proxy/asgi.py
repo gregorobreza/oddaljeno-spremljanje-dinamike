@@ -18,9 +18,9 @@ from chanmqttproxy import MqttConsumer
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'mqtt_proxy.settings')
 
 application = ProtocolTypeRouter({
-    "channel": ChannelNameRouter({
-        "mqtt": MqttConsumer.as_asgi()
-    }),
+    # "channel": ChannelNameRouter({
+    #     "mqtt": MqttConsumer.as_asgi()
+    # }),
     "http": get_asgi_application(),
     "websocket": AuthMiddlewareStack(
         URLRouter(

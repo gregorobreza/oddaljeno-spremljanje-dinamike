@@ -1,50 +1,76 @@
-<!-- chat/templates/chat/room.html -->
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8"/>
-    <title>Chat Room</title>
-</head>
-<body>
-    <textarea id="chat-log" cols="100" rows="20"></textarea><br>
-    <input id="chat-message-input" type="text" size="100"><br>
-    <input id="chat-message-submit" type="button" value="Send">
-    {{ room_name|json_script:"room-name" }}
-    <script>
-        const roomName = JSON.parse(document.getElementById('room-name').textContent);
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
 
-        const chatSocket = new WebSocket(
-            'ws://'
-            + window.location.host
-            + '/ws/chat/'
-            + roomName
-            + '/'
-        );
+<div class="top-line">
+    <h1>Upravljanje naprave</h1>
+</div>
+{% comment %} 
+<textarea id="chat-log" cols="100" rows="20"></textarea><br>
+<input id="chat-message-input" type="text" size="100"><br>
+<input id="chat-message-submit" type="button" value="Send"> {% endcomment %}
+{{ room_name|json_script:"room-name" }}
 
-        chatSocket.onmessage = function(e) {
-            const data = JSON.parse(e.data);
-            document.querySelector('#chat-log').value += (data.message + '\n');
-        };
+<div>
+    <div class="contact-form"> 
+   
+        <form>
+        <label for="mode">Način</label>
+          <div class="input-group">
+            <input id="salutation-mr" name="mode" type="radio" value="stream"/>
+            <label class="inline" for="mode-stream">Časovno neomejen</label>
+            
+            <input id="salutation-mrs" name="mode" type="radio" value="duration"/>
+            <label class="inline" for="mode-duration">Časovno omejen</label>
+          </div>
+    
+          <label for="channels">Število kanalov</label>
+            <div class="input-group">
+              <input id="salutation-mr" name="channels" type="radio" value="1"/>
+              <label class="inline" for="channels-1">1</label>
+              
+              <input id="salutation-mrs" name="channels" type="radio" value="2"/>
+              <label class="inline" for="channels-2">2</label>
+            </div>
+          
+          <div class="input-group">
+            <label for="duration">Čas trajanja [s]</label>
+            <input id="duration" name="duration" type="number"/>
+          </div>
+          
+          <label for="name">Frekvenca vzorčenja</label>
+    
+          <div class="input-group">
+            <input id="salutation-mrs" name="rate" type="radio" value="24000"/>
+            <label class="inline" for="rate-24000">24000</label>
+    
+            <input id="salutation-mrs" name="rate" type="radio" value="48000"/>
+            <label class="inline" for="rate-48000">48000</label>
+    
+            <input id="salutation-mrs" name="rate" type="radio" value="96000"/>
+            <label class="inline" for="rate-96000">96000</label>
+    
+            <input id="salutation-mr" name="rate" type="radio" value="192000"/>
+            <label class="inline" for="rate-192000">192000</label>
+          </div>
+                
+          <div class="input-group">
+            <label for="chunk">Velikost buferja</label>
+            <input id="chunk" name="chunk" type="number"/>
+          </div>
+    
+          <div class="input-group">
+            <input id="start-stream" name = "start" type="submit" value="Začni">
+            <input id="stop-stream" name="stop" type="submit" value="Ustavi">
+          </div>
+        </form>
+    </div>
+    <div class="chart">
+        <canvas id="myChart-1"></canvas>
+        <canvas id="myChart-2"></canvas>
+    </div>
+</div>
 
-        chatSocket.onclose = function(e) {
-            console.error('Chat socket closed unexpectedly');
-        };
-
-        document.querySelector('#chat-message-input').focus();
-        document.querySelector('#chat-message-input').onkeyup = function(e) {
-            if (e.keyCode === 13) {  // enter, return
-                document.querySelector('#chat-message-submit').click();
-            }
-        };
-
-        document.querySelector('#chat-message-submit').onclick = function(e) {
-            const messageInputDom = document.querySelector('#chat-message-input');
-            const message = messageInputDom.value;
-            chatSocket.send(JSON.stringify({
-                'message': message
-            }));
-            messageInputDom.value = '';
-        };
-    </script>
-</body>
-</html>
+<script src="{% static "js/stream_app.js" %}"></script>
+{% endblock %}

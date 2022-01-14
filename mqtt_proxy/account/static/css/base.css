@@ -366,8 +366,9 @@ img.user-detail {
     padding: 10vh;
 }
 
-.login-div div{
-    background-color: #c3c4bd;
+.login-window{
+    border: solid #0e0909;
+    background-color: #e7e7e7;
     padding: 20px 40px 20px 40px;
-    border-radius: 20px;
+    border-radius: 30px;
 }

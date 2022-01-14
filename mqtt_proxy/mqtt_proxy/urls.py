@@ -19,6 +19,6 @@ from django.conf.urls import include
 
 urlpatterns = [
     path('account/', include('account.urls')),
-    path('chat/', include('mqtt_stream.urls')),
+    path('stream/', include('mqtt_stream.urls')),
     path('admin/', admin.site.urls),
 ]

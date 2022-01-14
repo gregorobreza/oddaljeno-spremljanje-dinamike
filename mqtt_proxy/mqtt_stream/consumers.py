@@ -12,21 +12,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
             self.room_group_name,
             self.channel_name
         )
-        # Join mqtt group
-        await self.channel_layer.group_add(
-            "mqttgroup",
-            self.channel_name
-        )
-        # Ensure MQTT messages come to the room
-        # This simplistic approach subscribes the room every
-        # time a websocket connects but that's OK
-        await self.channel_layer.send(
-            "mqtt",
-            {
-                "type": "mqtt_subscribe",
-                "topic": f"chat/{self.room_name}",
-                "group": "mqttgroup",
-        })
+
         await self.accept()
 
     async def disconnect(self, close_code):
@@ -37,47 +23,29 @@ class ChatConsumer(AsyncWebsocketConsumer):
         )
 
     # Receive message from WebSocket
-    async def receive(self, text_data):
-        text_data_json = json.loads(text_data)
-        message = text_data_json['message']
-
+    async def receive(self, text_data=None, bytes_data=None):
+        #text_data_json = json.loads(text_data)
+        #message = text_data_json['message']
+        data = bytes_data
         # Send message to room group
         await self.channel_layer.group_send(
             self.room_group_name,
             {
                 'type': 'chat_message',
-                'message': message
+                'message': data
             }
         )
-        # Publish on mqtt too
-        await self.channel_layer.send(
-            "mqtt",
-            {
-                "type": "mqtt_publish",
-                "publish": {  # These form the kwargs for mqtt.publish
-                    "topic": f"chat/{self.room_name}_out",
-                    "payload": message,
-                    "qos": 2,
-                    "retain": False,
-                    }
-        })
+
 
     # Receive message from room group
     async def chat_message(self, event):
         message = event['message']
 
         # Send message to WebSocket
-        await self.send(text_data=json.dumps({
-            'message': message
-        }))
+        # print(message)
+        await self.send(bytes_data=message)
+        # await self.send(text_data=json.dumps({
+        #     'message': message
+        # }))
 
-    # Receive message from mqtt group and send to websocket
-    async def mqtt_message(self, event):
-        message = event['message']
-        topic = message["topic"]
-        payload = message["payload"]
 
-        # Send message to WebSocket
-        await self.send(text_data=json.dumps({
-            'message': payload
-        }))

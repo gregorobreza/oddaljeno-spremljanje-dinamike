@@ -25,7 +25,7 @@ SECRET_KEY = 'k*ip53(8e@md$^)o!8+9bh!(qny8vl)c6*6a-hre422-6d(h2m'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["0.0.0.0", '127.0.0.1']
 
 
 # Application definition
@@ -138,6 +138,6 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 
-LOGIN_REDIRECT_URL = 'dashboard'
+LOGIN_REDIRECT_URL = 'devices'
 LOGIN_URL = 'login'
 LOGOUT_URL = 'logout'
