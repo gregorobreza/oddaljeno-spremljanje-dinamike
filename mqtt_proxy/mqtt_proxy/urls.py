@@ -16,9 +16,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.conf.urls import include
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('account/', include('account.urls')),
     path('stream/', include('mqtt_stream.urls')),
     path('admin/', admin.site.urls),
-]
+    path('measurement/', include('measurement.urls'))
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
