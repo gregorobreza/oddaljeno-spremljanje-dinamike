@@ -2,4 +2,6 @@ from django.contrib import admin
 from .models import Measurement
 # Register your models here.
 
-admin.site.register(Measurement)
+@admin.register(Measurement)
+class DeviceAdmin(admin.ModelAdmin):
+    list_display = ("title", "file", "added")

@@ -4,7 +4,7 @@
 {% block content %}
 
 <div class="top-line">
-    <h1>Upravljanje naprave</h1>
+    <h1>Upravljanje naprave: {{ device.title }}</h1>
 </div>
 {% comment %} 
 <textarea id="chat-log" cols="100" rows="20"></textarea><br>
@@ -12,10 +12,11 @@
 <input id="chat-message-submit" type="button" value="Send"> {% endcomment %}
 {{ room_name|json_script:"room-name" }}
 
-<div>
+<div class="upravljaj">
     <div class="contact-form"> 
-   
-        <form>
+      <h2>Začni meritev</h2>
+      <p>Tu kontrolirate napravo in posnamete meritev.</p>
+       <form>
         <label for="mode">Način</label>
           <div class="input-group">
             <input id="salutation-mr" name="mode" type="radio" value="stream"/>
@@ -66,11 +67,20 @@
           </div>
         </form>
     </div>
+    <div class="file-list">
+      <h2>Meritev na napravi</h2>
+      <p>Tu si lahko ogledate pretekle meritve shranjene na naprav. S klikom na njih jih shranite v spletno aplikacijo, ter si jih ogledate v vaših meritvah.</p>
+      <div  class="measurements">
+      </div>
+      <input id="refresh-measurement" name = "refresh" type="submit" value="Osveži">
+    </div>
+</div>
+
     <div class="chart">
         <canvas id="myChart-1"></canvas>
         <canvas id="myChart-2"></canvas>
     </div>
-</div>
+
 
 <script src="{% static "js/stream_app.js" %}"></script>
 {% endblock %}

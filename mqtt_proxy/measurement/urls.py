@@ -3,5 +3,5 @@ from django.contrib.auth import views as auth_views
 from . import views
 
 urlpatterns = [
-    path('upload/', views.upload_file, name='upload'),
+    path('upload/<str:file_name>/', views.upload_file, name='upload'),
 ]

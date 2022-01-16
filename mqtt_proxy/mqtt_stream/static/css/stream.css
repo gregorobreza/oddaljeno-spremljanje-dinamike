@@ -2,9 +2,27 @@
     display: flex;
 }
 
-.contact-form{
+.upravljaj{
     display:flex;
+    justify-content: space-between;
 }
 .cart{
     display:flex;
+}
+
+.measurements{
+    overflow: auto;
+    width: 60vw;
+    height: 200px;
+
+    
+}
+
+.measurement{
+    padding: 10px;
+    cursor: pointer;
+}
+
+.measurement:hover{
+    background-color: bisque;
 }

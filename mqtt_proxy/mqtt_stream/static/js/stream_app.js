@@ -4,7 +4,7 @@ let NUM_POINTS = 10000;
 const roomName = JSON.parse(document.getElementById('room-name').textContent);
 //grafi
 
-
+let measurements = new Array
 
 let pointData1 = [];
 let pointData2 = [];
@@ -35,7 +35,7 @@ const data = {
     }]
 };
 
-const config = {
+let config = {
     type: 'line',
     data: data,
     options: {
@@ -81,7 +81,7 @@ var myChart2 = new Chart(
 
 
 function updateCart(chart, points) {
-    chart.data.datasets[0].data = points;   
+    chart.data.datasets[0].data = points;
 
     chart.update()
 }
@@ -154,8 +154,21 @@ function onConnect() {
   // Once a connection has been made, make a subscription and send a message.
   console.log("client connected");
     client.subscribe(roomName + "/control");
-    
+    client.subscribe(roomName + "/measurements");
+    sendMessage("list_files", "/check/measurements")
+    const refresh = document.querySelector("#refresh-measurement")
+    refresh.onclick = function checkMessage(){
+        message = new Paho.MQTT.Message("list_files");
+        message.destinationName = roomName+"/check/measurements";
+        client.send(message);
+    }
 
+}
+
+function sendMessage(msg, path){
+    message = new Paho.MQTT.Message(msg);
+    message.destinationName = roomName+path;
+    client.send(message);
 }
 
 // called when the client loses its connection
@@ -167,7 +180,26 @@ function onConnectionLost(responseObject) {
 
 // called when a message arrives
 function onMessageArrived(message) {
-  //console.log(message.payloadString)
+    if (message.destinationName == roomName + "/measurements"){
+        measurements = JSON.parse(message.payloadString)
+        const measurementsList = document.querySelector(".measurements")
+        while (measurementsList.firstChild) {
+            measurementsList.removeChild(measurementsList.firstChild);
+          }
+        measurements.forEach(element => {
+            const measurement = document.createElement("div");
+            measurement.className = "measurement";
+            const newContent = document.createTextNode(element);
+            measurement.appendChild(newContent)
+            measurementsList.appendChild(measurement)
+            measurement.onclick = function saveFile(){
+                message = new Paho.MQTT.Message(element);
+                message.destinationName = roomName+"/check/measurements/download";
+                client.send(message);
+            }
+
+          });
+    }
 
 }
 
@@ -197,7 +229,16 @@ function handleFormSubmit(event) {
     formJSON["stream"] = obj
     formJSON["format"] = "int16"
 
+    // NUM_POINTS = formJSON["chunk"];
+    // pointData1 = [];
+    // pointData2 = [];
 
+
+    // for (let i = 0; i < NUM_POINTS; ++i) {
+    //     pointData1.push({ x: i, y: null });
+    //     pointData2.push({ x: i, y: null });
+    //     };
+    // config["options"]["scales"]["x"]["max"] = NUM_POINTS
     message = new Paho.MQTT.Message(JSON.stringify(formJSON));
     message.destinationName = roomName+"/control";
     client.send(message);
@@ -213,6 +254,7 @@ function handleFormSubmit(event) {
   form.addEventListener('submit', handleFormSubmit);
 
 
+//refresh.addEventListener("submit", sendMessage("list_files", "/check/measurements"))
 
 
 

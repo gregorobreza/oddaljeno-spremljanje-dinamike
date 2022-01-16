@@ -2,7 +2,7 @@
 client = new Paho.MQTT.Client("127.0.0.1", Number(9001), "device-status");
 
 const addresses = JSON.parse(document.getElementById('list').textContent).flat();
-
+console.log(addresses)
 let device_map = new Map();
 
 addresses.forEach(element => {

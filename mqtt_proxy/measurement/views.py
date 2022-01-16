@@ -5,11 +5,10 @@ from .models import Measurement
 # Create your views here.
 
 @csrf_exempt
-def upload_file(request):
+def upload_file(request, file_name):
+    title = file_name.split(".")[0]
     if request.method == "POST":
-        instance = Measurement(file = request.FILES["test.txt"])
+        instance = Measurement(title=title, file = request.FILES[file_name])
         instance.save()
-
-        
 
     return HttpResponse(status=201)
