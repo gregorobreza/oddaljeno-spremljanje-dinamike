@@ -19,7 +19,6 @@ function update_x(el){
             pointData1.push({ x: i, y: null });
             pointData2.push({ x: i, y: null });
             };
-        console.log(NUM_POINTS)
         config1.options.scales.x.max = NUM_POINTS
         config2.options.scales.x.max = NUM_POINTS
         updateCart(myChart1, pointData1)
@@ -269,6 +268,7 @@ function onMessageArrived(message) {
                 message = new Paho.MQTT.Message(element);
                 message.destinationName = roomName+"/check/measurements/download";
                 client.send(message);
+                window.alert("Meritev bo shranjena na strežnik aplikacije. Ogledate si jo lahko v vaših meritvah.")
             }
 
           });
