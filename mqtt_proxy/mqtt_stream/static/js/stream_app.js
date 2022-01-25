@@ -54,8 +54,8 @@ const data1 = {
     //labels: labels,
     datasets: [{
         label: 'Vhod',
-        backgroundColor: 'rgb(255, 99, 132)',
-        borderColor: 'rgb(255, 99, 132)',
+        backgroundColor: 'rgb(48, 59, 156)',
+        borderColor: 'rgb(48, 59, 156)',
         data: pointData1,
         radius: 0,
     }]
