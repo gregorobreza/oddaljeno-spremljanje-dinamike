@@ -31,8 +31,8 @@ Hello {{ request.user.first_name }},
     <li {% if section == "devices" %}class="selected"{% endif %}>
     <a href="{% url "devices" %}">Naprave</a>
     </li>
-    <li {% if section == "images" %}class="selected"{% endif %}>
-    <a href="#">Meritve</a>
+    <li {% if section == "measurements" %}class="selected"{% endif %}>
+    <a href="{% url "measurements" %}">Meritve</a>
     </li>
     <li {% if section == "profile" %}class="selected"{% endif %}>
     <a href="{% url "edit" %}">Račun</a>
