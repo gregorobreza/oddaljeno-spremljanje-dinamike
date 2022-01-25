@@ -61,10 +61,26 @@
             <label class="inline" for="rate-192000">192000</label>
           </div>
                 
+          <label for="chunk">Velikost buferja:</label>
           <div class="input-group">
+    
+            <input id="chunk-6000" name="chunk" type="radio" value="6000"/>
+            <label class="inline" for="chunk-6000">6000</label>
+    
+            <input id="chunk-8000" name="chunk" type="radio" value="8000"/>
+            <label class="inline" for="chunk-8000">8000</label>
+    
+            <input id="chunk-12000" name="chunk" type="radio" value="12000"/>
+            <label class="inline" for="chunk-12000">12000</label>
+
+            <input id="chunk-16000" name="chunk" type="radio" value="16000"/>
+            <label class="inline" for="chunk-16000">16000</label>
+          </div>
+
+          {% comment %} <div class="input-group">
             <label for="chunk">Velikost buferja:</label>
             <input id="chunk" name="chunk" type="number"/>
-          </div>
+          </div> {% endcomment %}
     
           <div class="input-group">
             <input id="start-stream" name = "start" type="submit" value="Začni">

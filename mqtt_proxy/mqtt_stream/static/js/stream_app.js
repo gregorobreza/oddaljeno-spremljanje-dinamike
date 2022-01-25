@@ -1,4 +1,4 @@
-let NUM_POINTS = 10000;
+let NUM_POINTS = 6000;
 
 //tudi za mqtt!
 const roomName = JSON.parse(document.getElementById('room-name').textContent);
@@ -8,6 +8,33 @@ let measurements = new Array
 
 let pointData1 = [];
 let pointData2 = [];
+
+
+function update_x(el){
+    el.addEventListener("input", function(event) {
+        NUM_POINTS = Number(el.value)
+        pointData1 = [];
+        pointData2 = [];
+        for (let i = 0; i < NUM_POINTS; ++i) {
+            pointData1.push({ x: i, y: null });
+            pointData2.push({ x: i, y: null });
+            };
+        console.log(NUM_POINTS)
+        config1.options.scales.x.max = NUM_POINTS
+        config2.options.scales.x.max = NUM_POINTS
+        updateCart(myChart1, pointData1)
+        updateCart(myChart2, pointData2)
+    });
+}
+
+const rate6 = document.querySelector("#chunk-6000")
+update_x(rate6)
+const rate8 = document.querySelector("#chunk-8000")
+update_x(rate8)
+const rate12 = document.querySelector("#chunk-12000")
+update_x(rate12)
+const rate16 = document.querySelector("#chunk-16000")
+update_x(rate16)
 
 const decimation = {
     enabled: true,
@@ -160,6 +187,7 @@ chatSocket.onmessage = function(e) {
         }
 
     }
+
     for (let i = 0; i < NUM_POINTS; ++i) {
         pointData1[i].y = channel1[i]
         pointData2[i].y = channel2[i]
@@ -168,6 +196,8 @@ chatSocket.onmessage = function(e) {
     }
     updateCart(myChart1, pointData1)
     updateCart(myChart2, pointData2)
+    // updateCart(myChart1, channel1)
+    // updateCart(myChart2, channel2)
     //console.log(pointData1)
     //console.log(pointData2)
     //const data = JSON.parse(e.data);
@@ -298,6 +328,20 @@ function handleFormSubmit(event) {
   form.addEventListener('submit', handleFormSubmit);
 
 
+
+
+// document.querySelector("#chunk-6000").addEventListener("input", function(event) {
+//     NUM_POINTS = 6000
+//     for (let i = 0; i < NUM_POINTS; ++i) {
+//         pointData1.push({ x: i, y: null });
+//         pointData2.push({ x: i, y: null });
+//         };
+//     console.log(NUM_POINTS)
+//     config1.options.scales.x.max = NUM_POINTS
+//     config2.options.scales.x.max = NUM_POINTS
+//     updateCart(myChart1, pointData1)
+//     updateCart(myChart2, pointData2)
+// });
 //refresh.addEventListener("submit", sendMessage("list_files", "/check/measurements"))
 
 
