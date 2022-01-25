@@ -2,7 +2,10 @@
 {% block title %}Račun{% endblock %}
 
 {% block content %}
-<h1>Uredite podatke</h1>
+<div class="top-line">
+    <h1>Uredite podatke</h1>
+</div>
+
 <p>Z uporabo sledeče forme lahko uredite podatke:</p>
 <form method="post" enctype="multipart/form-data">
 {{ user_form.as_p }}

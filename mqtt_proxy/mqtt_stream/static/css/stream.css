@@ -1,19 +1,28 @@
 .input-group{
     display: flex;
+    justify-content: space-between;
+    margin: 10px 10px 10px 0px;
 }
 
 .upravljaj{
     display:flex;
     justify-content: space-between;
 }
-.cart{
+
+.chart{
     display:flex;
+    flex-direction: row;
+    margin: 100px 0 100px 0;
+}
+
+.canvas{
+    width: 50%;
 }
 
 .measurements{
     overflow: auto;
     width: 60vw;
-    height: 200px;
+    height: 290px;
 
     
 }
@@ -25,4 +34,12 @@
 
 .measurement:hover{
     background-color: bisque;
+}
+
+.contact-form{
+    width: 20vw;
+}
+
+.radio{
+    justify-content: space-around;
 }

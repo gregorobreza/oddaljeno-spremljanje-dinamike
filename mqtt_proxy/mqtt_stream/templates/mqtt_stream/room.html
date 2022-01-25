@@ -17,8 +17,24 @@
       <h2>Začni meritev</h2>
       <p>Tu kontrolirate napravo in posnamete meritev.</p>
        <form>
-        <label for="mode">Način</label>
+        <div class="input-group">
+          <label for="name">Ime meritve:</label>
+          <input id="name" name="name" type="text"/>
+        </div>
+        <label for="save">Shrani meritev:</label>
+        <div class="input-group radio">
+          <div>
+            <input id="save-yes" name="save" type="radio" value="yes"/>
+            <label class="inline" for="save">Da</label>
+          </div>
+          <div>          
+            <input id="save-no" name="save" type="radio" value="no"/>
+            <label class="inline" for="save">Ne</label>
+          </div>
+        </div>
+        <label for="mode">Način:</label>
           <div class="input-group">
+            
             <input id="salutation-mr" name="mode" type="radio" value="stream"/>
             <label class="inline" for="mode-stream">Časovno neomejen</label>
             
@@ -26,25 +42,14 @@
             <label class="inline" for="mode-duration">Časovno omejen</label>
           </div>
     
-          <label for="channels">Število kanalov</label>
-            <div class="input-group">
-              <input id="salutation-mr" name="channels" type="radio" value="1"/>
-              <label class="inline" for="channels-1">1</label>
-              
-              <input id="salutation-mrs" name="channels" type="radio" value="2"/>
-              <label class="inline" for="channels-2">2</label>
-            </div>
-          
           <div class="input-group">
-            <label for="duration">Čas trajanja [s]</label>
+            <label for="duration">Čas trajanja [s]:</label>
             <input id="duration" name="duration" type="number"/>
           </div>
           
-          <label for="name">Frekvenca vzorčenja</label>
+          <label for="name">Frekvenca vzorčenja:</label>
     
           <div class="input-group">
-            <input id="salutation-mrs" name="rate" type="radio" value="24000"/>
-            <label class="inline" for="rate-24000">24000</label>
     
             <input id="salutation-mrs" name="rate" type="radio" value="48000"/>
             <label class="inline" for="rate-48000">48000</label>
@@ -57,7 +62,7 @@
           </div>
                 
           <div class="input-group">
-            <label for="chunk">Velikost buferja</label>
+            <label for="chunk">Velikost buferja:</label>
             <input id="chunk" name="chunk" type="number"/>
           </div>
     
@@ -77,8 +82,10 @@
 </div>
 
     <div class="chart">
-        <canvas id="myChart-1"></canvas>
-        <canvas id="myChart-2"></canvas>
+      <div class="canvas"><canvas id="myChart-1"></canvas></div>
+        
+      <div class="canvas"><canvas id="myChart-2"></canvas></div>
+
     </div>
 
 

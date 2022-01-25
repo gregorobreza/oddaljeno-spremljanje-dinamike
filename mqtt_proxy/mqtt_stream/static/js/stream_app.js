@@ -24,10 +24,10 @@ for (let i = 0; i < NUM_POINTS; ++i) {
 
 
 
-const data = {
+const data1 = {
     //labels: labels,
     datasets: [{
-        label: 'My First dataset',
+        label: 'Vhod',
         backgroundColor: 'rgb(255, 99, 132)',
         borderColor: 'rgb(255, 99, 132)',
         data: pointData1,
@@ -35,9 +35,54 @@ const data = {
     }]
 };
 
-let config = {
+let config1 = {
     type: 'line',
-    data: data,
+    data: data1,
+    options: {
+        plugins: {
+            decimation: decimation,
+        },
+        scales: {
+            x: {
+                type: 'linear',
+                min: 0,
+                max: NUM_POINTS,
+                    ticks: {
+                    source: 'auto',
+                    maxRotation: 0,
+                    minRotation: 0,
+                    autoSkip: true,
+                }
+            },
+            y: {
+                type: 'linear',
+                min: -3000,
+                max: 3000
+            } 
+        },
+        
+        animation: false,
+        spanGaps: true,
+        showLine: true,
+        normalized: false,
+        parsing: false,
+    }
+};
+
+const data2 = {
+    //labels: labels,
+    datasets: [{
+        label: 'Izhod',
+        backgroundColor: 'rgb(255, 99, 132)',
+        borderColor: 'rgb(255, 99, 132)',
+        data: pointData1,
+        radius: 0,
+    }]
+};
+
+let config2 = {
+    type: 'line',
+    data: data2,
     options: {
         plugins: {
             decimation: decimation,
@@ -71,12 +116,12 @@ let config = {
 
 var myChart1 = new Chart(
     document.getElementById('myChart-1'),
-    config
+    config1
 );
 
 var myChart2 = new Chart(
   document.getElementById('myChart-2'),
-  config
+  config2
 );
 
 
@@ -132,8 +177,6 @@ chatSocket.onmessage = function(e) {
 chatSocket.onclose = function(e) {
     console.error('Chat socket closed unexpectedly');
 };
-
-
 
 
 //MQTT
@@ -228,6 +271,7 @@ function handleFormSubmit(event) {
 
     formJSON["stream"] = obj
     formJSON["format"] = "int16"
+    formJSON["channels"] = 2
 
     // NUM_POINTS = formJSON["chunk"];
     // pointData1 = [];
