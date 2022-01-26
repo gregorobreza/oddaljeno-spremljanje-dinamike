@@ -3,6 +3,10 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
 from .models import Measurement
 from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
+from django.conf import settings
+import os
+import json
 # Create your views here.
 
 @csrf_exempt
@@ -17,4 +21,16 @@ def upload_file(request, file_name):
 @login_required
 def measurements(request):
     measurements = Measurement.objects.all()
-    return render(request, 'measurements/measurements.html', {'measurements':measurements, "section":"measurements"})
+    files_list = list(Measurement.objects.values_list("json_file"))
+    return render(request, 'measurements/measurements.html', {'measurements':measurements, "section":"measurements", "files":files_list})
+
+
+
+def ajax_get_view(request, file_name): # May include more arguments depending on URL parameters
+    # Get data from the database - Ex. Model.object.get(...)
+    file_path = os.path.join(settings.MEDIA_ROOT, "measurements", file_name)
+    print(file_path)
+    if os.path.exists(file_path):
+        with open(file_path, 'rb') as fh:
+            json_obj = json.load(fh)
+            return JsonResponse(json_obj)
