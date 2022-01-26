@@ -9,7 +9,7 @@ from django.contrib.auth.decorators import login_required
 def upload_file(request, file_name):
     title = file_name.split(".")[0]
     if request.method == "POST":
-        instance = Measurement(title=title, file = request.FILES[file_name])
+        instance = Measurement(title=title, json_file = request.FILES["file1"], npz_file =request.FILES["file2"])
         instance.save()
 
     return HttpResponse(status=201)

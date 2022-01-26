@@ -4,4 +4,4 @@ from .models import Measurement
 
 @admin.register(Measurement)
 class DeviceAdmin(admin.ModelAdmin):
-    list_display = ("title", "file", "added")
+    list_display = ("title", "json_file", "npz_file", "added")
