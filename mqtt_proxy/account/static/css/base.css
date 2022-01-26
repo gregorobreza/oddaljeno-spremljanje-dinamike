@@ -374,3 +374,45 @@ img.user-detail {
     border-radius: 30px;
 }
 
+
+.measurement-table{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 0px 40px 0px 40px;
+}
+
+.measurement-item{
+    padding: 20px 40px 20px 40px;
+    flex: 1;
+}
+
+.show{
+    color:rgb(255, 255, 255);
+    background:#000000;
+    border-radius: 10px;
+    vertical-align:middle;
+    padding: 10px;
+    text-align: center;
+    margin-right: 30px;
+    margin-left: 30px;
+}
+
+.measurement-status{
+    display: flex;
+    border: solid #000000;
+    border-radius: 20px;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin: 8px 0px 8px 0;
+    
+}
+
+.measurements-all{
+    overflow: auto;
+    height: 300px;
+    margin-bottom: 50px;
+   
+    
+}

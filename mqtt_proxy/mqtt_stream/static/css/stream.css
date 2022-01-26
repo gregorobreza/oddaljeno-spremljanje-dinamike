@@ -21,10 +21,15 @@
 
 .measurements{
     overflow: auto;
-    width: 60vw;
-    height: 290px;
-
+    width: 50vw;
+    height: 230px;
+    background: rgb(231, 228, 224);
+    margin-bottom: 50px;
     
+}
+
+.file-list{
+    width: 60vw;
 }
 
 .measurement{

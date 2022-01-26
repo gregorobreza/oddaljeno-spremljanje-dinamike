@@ -5,4 +5,31 @@
 <div class="top-line">
     <h1>Vaše meritve na strežniku</h1>
 </div>
+<div class="measurement-table">
+    <div>Meritev</div>
+    <div>Komentar</div>
+    <div>Dodano</div>
+    <div class="last">Prikaži</div>
+</div>
+
+<div class="measurements-all">
+    {% for m in measurements %}
+<div class="measurement-status" id="{{ m.title }}">
+    <div class="measurement-item">{{m.title}}</div>
+    <div class="measurement-item">{{m.comment}}</div>
+    <div class="measurement-item">{{m.added}}</div>
+    <a class="no-hover" href="/stream/{{d.address}}">
+    <div class="measurement-item show status" >Prikaži</div>
+    </a>
+</div>
+{% endfor %}
+</div>
+<div class="top-line">
+
+</div>
+<div class="top-line">
+    <h1>Prikaz meritev</h1>
+</div>
+
+
 {% endblock %}
