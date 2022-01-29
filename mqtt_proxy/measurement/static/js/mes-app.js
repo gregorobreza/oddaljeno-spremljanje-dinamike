@@ -8,7 +8,11 @@ const duration = document.querySelector("#meritev").children[2]
 const date = document.querySelector("#meritev").children[3]
 const method = document.querySelector("#meritev").children[4]
 
+const zacetek = document.getElementById('input-number-1');
+const konec = document.getElementById('input-number-2');
 
+const zacetekVrednost = zacetek.value = "0"
+const konecVrednost = konec.value = "4000"
 
 
 //Grafi
@@ -20,11 +24,12 @@ let pointData2 = [];
 let pointData3 = [];
 
 
+
+
 const decimation = {
     enabled: true,
     algorithm: 'min-max',
-/*     algorithm: 'lttb',
-    samples: 10000  */
+
 };
 
 
@@ -38,7 +43,7 @@ for (let i = 0; i < NUM_POINTS; ++i) {
     const data1 = {
         //labels: labels,
         datasets: [{
-            label: 'Vhod',
+            label: 'Amplituda',
             backgroundColor: 'rgb(48, 59, 156)',
             borderColor: 'rgb(48, 59, 156)',
             data: pointData1,
@@ -52,21 +57,33 @@ for (let i = 0; i < NUM_POINTS; ++i) {
         options: {
             plugins: {
                 decimation: decimation,
+                legend:{
+                    display:false
+                }
             },
             scales: {
                 x: {
                     type: 'linear',
-                    min: 0,
+                    min: Number(zacetekVrednost),
+                    max: Number(konecVrednost),
                     
                         ticks: {
                         source: 'auto',
                         maxRotation: 0,
                         minRotation: 0,
                         autoSkip: true,
-                    }
+                    },
+                    title: {
+                        display: true,
+                        text: 'f [Hz]'
+                      }
                 },
                 y: {
-                    type: 'linear',
+                    type: 'logarithmic',
+                    title: {
+                        display: true,
+                        text: 'Amplituda [dB]'
+                      }
                 } 
             },
             
@@ -81,7 +98,7 @@ for (let i = 0; i < NUM_POINTS; ++i) {
     const data2 = {
         //labels: labels,
         datasets: [{
-            label: 'Izhod',
+            label: 'Kot',
             backgroundColor: 'rgb(255, 99, 132)',
             borderColor: 'rgb(255, 99, 132)',
             data: pointData1,
@@ -95,21 +112,32 @@ for (let i = 0; i < NUM_POINTS; ++i) {
         options: {
             plugins: {
                 decimation: decimation,
+                legend:{
+                    display:false
+                }
             },
             scales: {
                 x: {
                     type: 'linear',
-                    min: 0,
-                    max: NUM_POINTS,
+                    min: Number(zacetekVrednost),
+                    max: Number(konecVrednost),
                         ticks: {
                         source: 'auto',
-                        maxRotation: 0,
-                        minRotation: 0,
+                        min: Number(zacetek),
+                        max: Number(konec),
                         autoSkip: true,
-                    }
+                    },
+                    title: {
+                        display: true,
+                        text: 'f [Hz]'
+                      }
                 },
                 y: {
                     type: 'linear',
+                    title: {
+                        display: true,
+                        text: 'Kot [˚]'
+                      }
 
                 } 
             },
@@ -125,7 +153,7 @@ for (let i = 0; i < NUM_POINTS; ++i) {
     const data3 = {
         //labels: labels,
         datasets: [{
-            label: 'Izhod',
+            label: 'Koherenca',
             backgroundColor: 'rgb(255, 99, 132)',
             borderColor: 'rgb(255, 99, 132)',
             data: pointData1,
@@ -139,21 +167,38 @@ for (let i = 0; i < NUM_POINTS; ++i) {
         options: {
             plugins: {
                 decimation: decimation,
+                legend:{
+                    display:false
+                }
             },
+            interaction: {
+                intersect: false,
+                mode: 'index',
+              },
             scales: {
                 x: {
                     type: 'linear',
-                    min: 0,
-                    max: NUM_POINTS,
+                    min: Number(zacetekVrednost),
+                    max: Number(konecVrednost),
                         ticks: {
                         source: 'auto',
                         maxRotation: 0,
                         minRotation: 0,
                         autoSkip: true,
-                    }
+                    },
+                    title: {
+                        display: true,
+                        text: 'f [Hz]'
+                      }
                 },
                 y: {
                     type: 'linear',
+                    // min: 0,
+                    // max: 1,
+                    title: {
+                        display: true,
+                        text: 'Koherenca'
+                      }
 
                 } 
             },
@@ -212,12 +257,22 @@ fetch(URL, {
     imeMeritve.textContent = "Meritev: " + data.info["name"]
     frameRate.textContent = "Frekvenca vzorčenja: " + data.info["rate"] + "Hz"
     duration.textContent = "Trajanje zajema: " + data.info["duration"] + "s"
-    method.textContent = "Uporabljena metoda: Welch's"
+    method.textContent = "Uporabljena metoda: Welch's (število segmentov:)" 
 
     //graph
+    let freq = data.freq
+    let coh = data.coh
+    
 
-    console.log(pointData1)
+    pointData3 = []
 
+    for (let i = 0; i < freq.length; ++i) {
+        // pointData1.push({ x: i, y: null });
+        // pointData2.push({ x: i, y: null });
+        pointData3.push({ x: freq[i], y: coh[i] });
+        };
+        console.log(pointData3)
+        updateCart(myChart3, pointData3)
 
 })
 
@@ -226,3 +281,25 @@ fetch(URL, {
 files.forEach(element =>
     document.getElementById(element).addEventListener("click", function(){get_json(element)})
     )
+   
+    
+    
+zacetek.addEventListener("change", function(){UpdateChart(zacetek)});
+konec.addEventListener("change", function(){UpdateChart(konec)});
+
+function UpdateChart(point){
+    if (point == zacetek){
+        config1.options.scales.x.min = Number(point.value)
+        config2.options.scales.x.min = Number(point.value)
+        config3.options.scales.x.min = Number(point.value)
+    }
+    else{
+        config1.options.scales.x.max = Number(point.value)
+        config2.options.scales.x.max = Number(point.value)
+        config3.options.scales.x.max = Number(point.value)
+    }
+    updateCart(myChart1, pointData1)
+    updateCart(myChart2, pointData2)
+    updateCart(myChart3, pointData3)
+
+}

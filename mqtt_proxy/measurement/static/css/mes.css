@@ -1,6 +1,7 @@
 .meritev{
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    justify-content: space-around;
     
 }
     
@@ -8,3 +9,17 @@
 .show{
     cursor: pointer;
 }
+
+/* .chart{
+    display:flex;
+    flex-direction: row;
+    margin: 100px 0 100px 0;
+} */
+
+.canvas2{
+    width: 48vw;
+}
+
+/* .section2{
+    flex-grow: 2;
+} */

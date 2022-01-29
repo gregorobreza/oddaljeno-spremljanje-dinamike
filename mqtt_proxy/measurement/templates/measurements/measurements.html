@@ -29,6 +29,7 @@
 <div class="top-line">
 
 </div>
+
 <div class="top-line">
     <h1>Prikaz meritev</h1>
 </div>
@@ -42,16 +43,29 @@
             <li>Datum meritve:</li>
             <li>Uporabljena metoda:</li>
         </ul>
+        <h2 id="naslov-meritve">Območje opazovanja [Hz]:</h2>
+        {% comment %} <div id="slider"></div> {% endcomment %}
+        <label class="inline" for="od">Od</label>
+        <input type="number" id="input-number-1">
+        <label class="inline" for="do">Do</label>
+        <input type="number" id="input-number-2">
+        
+        
     </div>
-    <div class="section canvas2">
-        <canvas id="myChart-1"></canvas>
-    </div>
-    <div class="section canvas2">
-        <canvas  id="myChart-2"></canvas>
-    </div>
-    <div class="section canvas2">
-        <canvas id="myChart-3"></canvas>
-    </div> 
+
+        <div class="section2">
+            <div class="section canvas2">
+                <canvas id="myChart-1"></canvas>
+            </div>
+            <div class="section canvas2">
+                <canvas  id="myChart-2"></canvas>
+            </div>
+            <div class="section canvas2">
+                <canvas id="myChart-3"></canvas>
+            </div> 
+        </div>
+
 </div>
+
 <script src="{% static "js/mes-app.js" %}"></script>
 {% endblock %}
