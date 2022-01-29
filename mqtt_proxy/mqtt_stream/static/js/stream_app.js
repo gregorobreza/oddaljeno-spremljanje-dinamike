@@ -1,8 +1,48 @@
-let NUM_POINTS = 6000;
+let NUM_POINTS = 8000;
 
 //tudi za mqtt!
 const roomName = JSON.parse(document.getElementById('room-name').textContent);
+
+
+document.getElementById('segments').value = '10';
+// document.getElementById('stream').value = '10';
+// document.getElementById('duration').value = '10';
+
+
+
+function displaySegments(id, elementValue) {
+    document.getElementById(id).style.display = elementValue.value == "welch" ? 'flex' : 'none';
+ }
+
+
+
+
+function Duration() {
+    if (document.getElementById('duration').checked) {
+        document.getElementById('cas-trajanja').style.display = 'flex';
+    } 
+    else if(document.getElementById('stream').checked) {
+        document.getElementById('cas-trajanja').style.display = 'none';
+   }
+}
+
+function Segments(){
+    if (document.getElementById("method").value == "welch"){
+        document.getElementById("welch-segments").style.display = "flex";
+    }
+    else if(document.getElementById("method").value == ""){
+        document.getElementById("welch-segments").style.display = "none";
+    }
+}
+
+Segments()
+Duration()
+document.getElementById("nacin").addEventListener("click", Duration);
+
 //grafi
+
+
+
 
 let measurements = new Array
 
@@ -78,13 +118,24 @@ let config1 = {
                     maxRotation: 0,
                     minRotation: 0,
                     autoSkip: true,
-                }
+
+                },
+                title: {
+                    display: true,
+                    text: 'Čas'
+                  }
             },
             y: {
                 type: 'linear',
-                min: -3000,
-                max: 3000
-            } 
+                min: -3,
+                max: 3,
+                title: {
+                    display: true,
+                    text: 'Sila [N]'
+                  }
+            },
+
+
         },
         
         animation: false,
@@ -123,12 +174,20 @@ let config2 = {
                     maxRotation: 0,
                     minRotation: 0,
                     autoSkip: true,
-                }
+                },
+                title: {
+                    display: true,
+                    text: 'Čas'
+                  }
             },
             y: {
                 type: 'linear',
-                min: -3000,
-                max: 3000
+                min: -3,
+                max: 3,
+                title: {
+                    display: true,
+                    text: 'Pospešek [g]'
+                  }
             } 
         },
         
@@ -188,8 +247,8 @@ chatSocket.onmessage = function(e) {
     }
 
     for (let i = 0; i < NUM_POINTS; ++i) {
-        pointData1[i].y = channel1[i]
-        pointData2[i].y = channel2[i]
+        pointData1[i].y = channel1[i]*3/(2**15)
+        pointData2[i].y = channel2[i]*3/(2**15)
         // pointData1.push({ x: i, y: channel1[i] });
         // pointData2.push({ x: i, y: channel2[i] });
     }

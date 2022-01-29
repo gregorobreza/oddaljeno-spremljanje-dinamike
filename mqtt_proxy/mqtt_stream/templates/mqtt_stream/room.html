@@ -28,21 +28,21 @@
             <label class="inline" for="save">Da</label>
           </div>
           <div>          
-            <input id="save-no" name="save" type="radio" value="no"/>
+            <input id="save-no" name="save" type="radio" value="no" checked/>
             <label class="inline" for="save">Ne</label>
           </div>
         </div>
         <label for="mode">Način:</label>
-          <div class="input-group">
+          <div class="input-group" id="nacin">
             
-            <input id="salutation-mr" name="mode" type="radio" value="stream"/>
+            <input id="stream" name="mode" type="radio" value="stream" checked/>
             <label class="inline" for="mode-stream">Časovno neomejen</label>
             
-            <input id="salutation-mrs" name="mode" type="radio" value="duration"/>
+            <input id="duration" name="mode" type="radio" value="duration"/>
             <label class="inline" for="mode-duration">Časovno omejen</label>
           </div>
     
-          <div class="input-group">
+          <div class="input-group" id="cas-trajanja">
             <label for="duration">Čas trajanja [s]:</label>
             <input id="duration" name="duration" type="number"/>
           </div>
@@ -57,7 +57,7 @@
             <input id="salutation-mrs" name="rate" type="radio" value="96000"/>
             <label class="inline" for="rate-96000">96000</label>
     
-            <input id="salutation-mr" name="rate" type="radio" value="192000"/>
+            <input id="salutation-mr" name="rate" type="radio" value="192000" checked/>
             <label class="inline" for="rate-192000">192000</label>
           </div>
                 
@@ -67,7 +67,7 @@
             <input id="chunk-6000" name="chunk" type="radio" value="6000"/>
             <label class="inline" for="chunk-6000">6000</label>
     
-            <input id="chunk-8000" name="chunk" type="radio" value="8000"/>
+            <input id="chunk-8000" name="chunk" type="radio" value="8000" checked/>
             <label class="inline" for="chunk-8000">8000</label>
     
             <input id="chunk-12000" name="chunk" type="radio" value="12000"/>
@@ -75,6 +75,21 @@
 
             <input id="chunk-16000" name="chunk" type="radio" value="16000"/>
             <label class="inline" for="chunk-16000">16000</label>
+          </div>
+
+
+          <div class="input-group">
+            <label for="method">Metoda izračuna:</label>
+            {% comment %} <input id="method" name="method" type="number"/> {% endcomment %}
+            <select name="method" id="method" onchange="displaySegments('welch-segments', this)" required >
+              <option value="">--Prosimo izberite opcijo--</option>
+              <option value="welch">Welch</option>
+          </select>
+          </div>
+
+          <div class="input-group" id="welch-segments">
+            <label for="segments">Število segmentov:</label>
+            <input id="segments" name="segments" type="number"/>
           </div>
 
           {% comment %} <div class="input-group">

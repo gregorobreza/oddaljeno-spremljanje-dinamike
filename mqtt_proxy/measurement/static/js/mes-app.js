@@ -1,36 +1,12 @@
-console.log("hello")
+
 
 let files = JSON.parse(document.getElementById('files').textContent).flat();
 
-
-console.log(files)
-
-function get_json(file){
-
-    let URL = "download/" + file
-
-
-fetch(URL, {
-    headers:{
-        'Accept': 'application/json',
-        'X-Requested-With': 'XMLHttpRequest', //Necessary to work with request.is_ajax()
-    },
-})
-.then(response => {
-
-    return response.json() //Convert response to JSON
-    
-})
-.then(data => {
-    //Perform actions with the response data from the view
-    console.log(data)
-})
-
-};
-
-files.forEach(element =>
-    document.getElementById(element).addEventListener("click", function(){get_json(element)})
-    )
+const imeMeritve = document.querySelector("#meritev").children[0]
+const frameRate = document.querySelector("#meritev").children[1]
+const duration = document.querySelector("#meritev").children[2]
+const date = document.querySelector("#meritev").children[3]
+const method = document.querySelector("#meritev").children[4]
 
 
 
@@ -59,9 +35,6 @@ for (let i = 0; i < NUM_POINTS; ++i) {
     };
 
 
-
-
-
     const data1 = {
         //labels: labels,
         datasets: [{
@@ -84,7 +57,7 @@ for (let i = 0; i < NUM_POINTS; ++i) {
                 x: {
                     type: 'linear',
                     min: 0,
-                    max: NUM_POINTS,
+                    
                         ticks: {
                         source: 'auto',
                         maxRotation: 0,
@@ -94,8 +67,6 @@ for (let i = 0; i < NUM_POINTS; ++i) {
                 },
                 y: {
                     type: 'linear',
-                    min: -3000,
-                    max: 3000
                 } 
             },
             
@@ -139,8 +110,7 @@ for (let i = 0; i < NUM_POINTS; ++i) {
                 },
                 y: {
                     type: 'linear',
-                    min: -3000,
-                    max: 3000
+
                 } 
             },
             
@@ -184,8 +154,7 @@ for (let i = 0; i < NUM_POINTS; ++i) {
                 },
                 y: {
                     type: 'linear',
-                    min: -3000,
-                    max: 3000
+
                 } 
             },
             
@@ -211,3 +180,49 @@ for (let i = 0; i < NUM_POINTS; ++i) {
         document.getElementById('myChart-3'),
         config3
       );
+
+
+
+      function updateCart(chart, points) {
+        chart.data.datasets[0].data = points;
+    
+        chart.update()
+    }
+//AJAX
+
+function get_json(file){
+
+    let URL = "download/" + file
+
+
+fetch(URL, {
+    headers:{
+        'Accept': 'application/json',
+        'X-Requested-With': 'XMLHttpRequest', //Necessary to work with request.is_ajax()
+    },
+})
+.then(response => {
+
+    return response.json() //Convert response to JSON
+    
+})
+.then(data => {
+    //Perform actions with the response data from the view
+    console.log(data)
+    imeMeritve.textContent = "Meritev: " + data.info["name"]
+    frameRate.textContent = "Frekvenca vzorčenja: " + data.info["rate"] + "Hz"
+    duration.textContent = "Trajanje zajema: " + data.info["duration"] + "s"
+    method.textContent = "Uporabljena metoda: Welch's"
+
+    //graph
+
+    console.log(pointData1)
+
+
+})
+
+};
+
+files.forEach(element =>
+    document.getElementById(element).addEventListener("click", function(){get_json(element)})
+    )
