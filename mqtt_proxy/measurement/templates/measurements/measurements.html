@@ -19,7 +19,7 @@
     <div class="measurement-item">{{m.title}}</div>
     <div class="measurement-item">{{m.comment}}</div>
     <div class="measurement-item">{{m.added}}</div>
-    <a class="no-hover" href="#">
+    <a class="no-hover" href="#" onclick="return false;">
     {% comment %} <div class="measurement-item show status" id="test1">Prikaži</div> {% endcomment %}
     <div class="measurement-item show status" id="{{m.json_file}}">Prikaži</div>
     </a>
@@ -54,13 +54,13 @@
     </div>
 
         <div class="section2">
-            <div class="section canvas2">
+            <div class="section canvas2" id="chart-canvas1">
                 <canvas id="myChart-1"></canvas>
             </div>
-            <div class="section canvas2">
+            <div class="section canvas2" id="chart-canvas2">
                 <canvas  id="myChart-2"></canvas>
             </div>
-            <div class="section canvas2">
+            <div class="section canvas2" id="chart-canvas3">
                 <canvas id="myChart-3"></canvas>
             </div> 
         </div>

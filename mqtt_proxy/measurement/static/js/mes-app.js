@@ -33,14 +33,14 @@ const decimation = {
 };
 
 
-for (let i = 0; i < NUM_POINTS; ++i) {
-    pointData1.push({ x: i, y: null });
-    pointData2.push({ x: i, y: null });
-    pointData3.push({ x: i, y: null });
-    };
+// for (let i = 0; i < NUM_POINTS; ++i) {
+//     pointData1.push({ x: i, y: null });
+//     pointData2.push({ x: i, y: null });
+//     pointData3.push({ x: i, y: null });
+//     };
 
 
-    const data1 = {
+let data1 = {
         //labels: labels,
         datasets: [{
             label: 'Amplituda',
@@ -59,8 +59,10 @@ for (let i = 0; i < NUM_POINTS; ++i) {
                 decimation: decimation,
                 legend:{
                     display:false
-                }
+                },
+                
             },
+            locale: 'fr-FR',
             scales: {
                 x: {
                     type: 'linear',
@@ -95,7 +97,7 @@ for (let i = 0; i < NUM_POINTS; ++i) {
         }
     };
     
-    const data2 = {
+let data2 = {
         //labels: labels,
         datasets: [{
             label: 'Kot',
@@ -116,6 +118,7 @@ for (let i = 0; i < NUM_POINTS; ++i) {
                     display:false
                 }
             },
+            locale: 'fr-FR',
             scales: {
                 x: {
                     type: 'linear',
@@ -150,7 +153,7 @@ for (let i = 0; i < NUM_POINTS; ++i) {
         }
     };
 
-    const data3 = {
+ let data3 = {
         //labels: labels,
         datasets: [{
             label: 'Koherenca',
@@ -171,6 +174,7 @@ for (let i = 0; i < NUM_POINTS; ++i) {
                     display:false
                 }
             },
+            locale: 'fr-FR',
             interaction: {
                 intersect: false,
                 mode: 'index',
@@ -211,17 +215,17 @@ for (let i = 0; i < NUM_POINTS; ++i) {
         }
     };
     
-    var myChart1 = new Chart(
+    let myChart1 = new Chart(
         document.getElementById('myChart-1'),
         config1
     );
     
-    var myChart2 = new Chart(
+    let myChart2 = new Chart(
       document.getElementById('myChart-2'),
       config2
     );
 
-    var myChart3 = new Chart(
+    let myChart3 = new Chart(
         document.getElementById('myChart-3'),
         config3
       );
@@ -230,9 +234,8 @@ for (let i = 0; i < NUM_POINTS; ++i) {
 
       function updateCart(chart, points) {
         chart.data.datasets[0].data = points;
-    
-        chart.update()
-    }
+        chart.update();}
+
 //AJAX
 
 function get_json(file){
@@ -257,22 +260,34 @@ fetch(URL, {
     imeMeritve.textContent = "Meritev: " + data.info["name"]
     frameRate.textContent = "Frekvenca vzorčenja: " + data.info["rate"] + "Hz"
     duration.textContent = "Trajanje zajema: " + data.info["duration"] + "s"
-    method.textContent = "Uporabljena metoda: Welch's (število segmentov:)" 
+    method.textContent = "Uporabljena metoda: Welch's (število segmentov: " + data.info["segments"]+")" 
+    date.textContent = "Datum meritve: " + data.info["date"]
 
     //graph
     let freq = data.freq
     let coh = data.coh
     
-
+    pointData1 = []
+    pointData2 = []
     pointData3 = []
 
     for (let i = 0; i < freq.length; ++i) {
         // pointData1.push({ x: i, y: null });
         // pointData2.push({ x: i, y: null });
+        // pointData1.push({ x: freq[i], y: coh[i] });
+        // pointData2.push({ x: freq[i], y: coh[i] });
         pointData3.push({ x: freq[i], y: coh[i] });
         };
-        console.log(pointData3)
-        updateCart(myChart3, pointData3)
+    console.log(pointData3)
+
+        // // console.log(myChart3.data.datasets[0].data)
+        // updateCart(myChart1, pointData1)
+        // updateCart(myChart2, pointData2)
+    
+    
+    // updateCart(myChart1, pointData1)
+    // updateCart(myChart2, pointData2)
+    updateCart(myChart3, pointData3)
 
 })
 
@@ -303,3 +318,6 @@ function UpdateChart(point){
     updateCart(myChart3, pointData3)
 
 }
+
+
+
