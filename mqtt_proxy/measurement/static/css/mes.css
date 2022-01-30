@@ -30,3 +30,16 @@
     display: flex;
     flex-direction: row;
 }
+
+.odstrani-link{
+    flex:1;
+}
+
+.odstrani{
+    background-color: brown;
+    width: 80px;
+}
+
+.measurement-item{
+    flex:1;
+}

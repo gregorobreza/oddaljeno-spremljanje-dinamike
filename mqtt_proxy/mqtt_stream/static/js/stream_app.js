@@ -327,7 +327,7 @@ function onMessageArrived(message) {
                 message = new Paho.MQTT.Message(element);
                 message.destinationName = roomName+"/check/measurements/download";
                 client.send(message);
-                window.alert("Meritev bo shranjena na strežnik aplikacije. Ogledate si jo lahko v vaših meritvah.")
+                window.alert("Če meritev še ni shranjena na strežniku, bo prenešena sedaj. Ogledate si jo lahko v aplikaciji za ogled vaših meritev.")
             }
 
           });

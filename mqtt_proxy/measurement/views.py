@@ -1,4 +1,5 @@
-from django.shortcuts import render
+from email import message
+from django.shortcuts import redirect, render
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
 from .models import Measurement
@@ -15,8 +16,11 @@ import mimetypes
 def upload_file(request, file_name):
     title = file_name.split(".")[0]
     if request.method == "POST":
-        instance = Measurement(title=title, json_file = request.FILES["file1"], npz_file =request.FILES["file2"])
-        instance.save()
+        if Measurement.objects.filter(title=title).exists():
+            print("obstaja")
+        else:
+            instance = Measurement(title=title, json_file = request.FILES["file1"], npz_file =request.FILES["file2"])
+            instance.save()
 
     return HttpResponse(status=201)
 
@@ -49,3 +53,9 @@ def download_file(request, path):
             response['Content-Disposition'] = "attachment; filename=" + os.path.basename(file_path)
             return response
     raise Http404
+
+@login_required
+def delete_measurement(request, measurement):
+    object = Measurement.objects.get(title=measurement)
+    object.delete()
+    return redirect("measurements")

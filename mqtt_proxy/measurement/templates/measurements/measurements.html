@@ -5,10 +5,13 @@
 {{ files|json_script:"files" }}
 <div class="top-line">
     <h1>Vaše meritve na strežniku</h1>
+    <a href="/admin" >
+        <div class="avalible admin" >Admin strani</div>
+    </a>
 </div>
 <div class="measurement-table">
     <div>Meritev</div>
-    <div>Komentar</div>
+    <div></div>
     <div>Dodano</div>
     <div class="last">Prikaži</div>
 </div>
@@ -17,7 +20,9 @@
     {% for m in measurements %}
 <div class="measurement-status" id="{{ m.title }}">
     <div class="measurement-item">{{m.title}}</div>
-    <div class="measurement-item">{{m.comment}}</div>
+    <a class="no-hover odstrani-link" href="delete/{{m.title}}">
+        <div class="measurement-item show odstrani">Odstrani</div>
+    </a>
     <div class="measurement-item">{{m.added}}</div>
     <a class="no-hover" href="#" onclick="return false;">
     {% comment %} <div class="measurement-item show status" id="test1">Prikaži</div> {% endcomment %}
@@ -47,7 +52,7 @@
         </div>
 
         <div>
-        <h2 id="naslov-meritve">Območje opazovanja [Hz]:</h2>
+        <h2 id="naslov-meritve">Območje zanimanja FRF [Hz]:</h2>
         
             <label class="inline" for="od">Od</label>
             <input type="number" id="input-number-1">
@@ -56,11 +61,11 @@
         </div>
 
         <div class="download-file">
-            <a class="no-hover" href="#" id="download-json">
+            <a class="no-hover" href="" id="download-json">
                 {% comment %} <div class="measurement-item show status" id="test1">Prikaži</div> {% endcomment %}
                 <div class="show status" id="">Prenesi *.json</div>
                 </a>
-            <a class="no-hover" href="#" id="download-npz">
+            <a class="no-hover" href="" id="download-npz">
                     {% comment %} <div class="measurement-item show status" id="test1">Prikaži</div> {% endcomment %}
                 <div class="show status" id="">Prenesi *.npz</div>
                 </a>
