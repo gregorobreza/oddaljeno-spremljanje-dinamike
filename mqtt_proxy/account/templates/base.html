@@ -11,6 +11,7 @@
 <link href="{% static "css/base.css" %}" rel="stylesheet">
 <link href="{% static "css/stream.css" %}" rel="stylesheet">
 <link href="{% static "css/mes.css" %}" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.5.1/nouislider.css" integrity="sha512-MKxcSu/LDtbIYHBNAWUQwfB3iVoG9xeMCm32QV5hZ/9lFaQZJVaXfz9aFa0IZExWzCpm7OWvp9zq9gVip/nLMg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 
@@ -48,6 +49,18 @@ Pozdravljen(a) {{ request.user.first_name }},
 <div id="content">
 {% block content %}
 {% endblock %}
+</div>
+<div id="footer">
+    <div>
+        <span class="spodaj">Avtor: Gregor Obreza</span>
+    </div>
+    <div>
+        <span class="footer-logo">Oddaljeno spremljanje dinamike struktur</span>
+    </div>
+    <div>
+        <i style="font-size:24px" class="fa spodaj">&#xf09b;</i>
+    </div>
+
 </div>
 </body>
 </html>

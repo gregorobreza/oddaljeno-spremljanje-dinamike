@@ -421,3 +421,24 @@ img.user-detail {
     width: 100px;
     background-color: #00a74f;
 }
+
+
+#footer{
+    background: #12c064;
+    color: white;
+    bottom:0;
+    width:100%;
+    height:40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#content{
+    padding-bottom: 30vh;
+}
+
+.spodaj{
+    margin-right: 80px;
+    margin-left: 80px;
+}
