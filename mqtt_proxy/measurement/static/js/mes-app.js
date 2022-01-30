@@ -14,7 +14,8 @@ const konec = document.getElementById('input-number-2');
 const zacetekVrednost = zacetek.value = "0"
 const konecVrednost = konec.value = "4000"
 
-
+const download_json = document.querySelector("#download-json")
+const download_npz = document.querySelector("#download-npz")
 //Grafi
 
 NUM_POINTS = 100000
@@ -230,6 +231,16 @@ let data2 = {
         config3
       );
 
+    // let myChartInput = new Chart(
+    //   document.getElementById('myChart-input'),
+    //   config2
+    // );
+
+    // let myChartOutput = new Chart(
+    //     document.getElementById('myChart-output'),
+    //     config3
+    //   );
+
 
 
       function updateCart(chart, points) {
@@ -242,6 +253,11 @@ function get_json(file){
 
     let URL = "download/" + file
 
+    let json_file_name = file.split("/")[1]
+    let npz_file_name = json_file_name.split(".")[0] +".npz"
+    console.log(json_file_name)
+    console.log(npz_file_name)
+
 
 fetch(URL, {
     headers:{
@@ -250,13 +266,15 @@ fetch(URL, {
     },
 })
 .then(response => {
-
     return response.json() //Convert response to JSON
     
 })
 .then(data => {
     //Perform actions with the response data from the view
     console.log(data)
+
+    download_json.href = window.location + "download_file/" + json_file_name
+    download_npz.href = window.location + "download_file/" + npz_file_name
     imeMeritve.textContent = "Meritev: " + data.info["name"]
     frameRate.textContent = "Frekvenca vzorčenja: " + data.info["rate"] + "Hz"
     duration.textContent = "Trajanje zajema: " + data.info["duration"] + "s"

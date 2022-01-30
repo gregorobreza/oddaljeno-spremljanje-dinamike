@@ -7,6 +7,8 @@ from django.http import JsonResponse
 from django.conf import settings
 import os
 import json
+from django.http import HttpResponse, Http404
+import mimetypes
 # Create your views here.
 
 @csrf_exempt
@@ -34,3 +36,16 @@ def ajax_get_view(request, file_name): # May include more arguments depending on
         with open(file_path, 'rb') as fh:
             json_obj = json.load(fh)
             return JsonResponse(json_obj)
+
+@login_required
+def download_file(request, path):
+    file_path = os.path.join(settings.MEDIA_ROOT,"measurements", path)
+    print(file_path)
+    if os.path.exists(file_path):
+        with open(file_path, 'rb') as fh:
+            mime_type, _ = mimetypes.guess_type(file_path)
+            print(mime_type)
+            response = HttpResponse(fh.read(), content_type=mime_type)
+            response['Content-Disposition'] = "attachment; filename=" + os.path.basename(file_path)
+            return response
+    raise Http404
