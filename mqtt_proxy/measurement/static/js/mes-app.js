@@ -28,8 +28,8 @@ let pointData3 = [];
 
 
 const decimation = {
-    enabled: true,
-    algorithm: 'min-max',
+    enabled: false,
+    // algorithm: 'min-max',
 
 };
 
@@ -57,13 +57,17 @@ let data1 = {
         data: data1,
         options: {
             plugins: {
-                decimation: decimation,
+                // decimation: decimation,
                 legend:{
                     display:false
                 },
                 
             },
             locale: 'fr-FR',
+            interaction: {
+                intersect: false,
+                mode: 'index',
+              },
             scales: {
                 x: {
                     type: 'linear',
@@ -74,7 +78,7 @@ let data1 = {
                         source: 'auto',
                         maxRotation: 0,
                         minRotation: 0,
-                        autoSkip: true,
+                        autoSkip: false,
                     },
                     title: {
                         display: true,
@@ -82,11 +86,11 @@ let data1 = {
                       }
                 },
                 y: {
-                    type: 'logarithmic',
+                    type: 'linear',
                     title: {
                         display: true,
                         text: 'Amplituda [dB]'
-                      }
+                      },
                 } 
             },
             
@@ -127,9 +131,7 @@ let data2 = {
                     max: Number(konecVrednost),
                         ticks: {
                         source: 'auto',
-                        min: Number(zacetek),
-                        max: Number(konec),
-                        autoSkip: true,
+                        autoSkip: false,
                     },
                     title: {
                         display: true,
@@ -141,7 +143,7 @@ let data2 = {
                     title: {
                         display: true,
                         text: 'Kot [˚]'
-                      }
+                      },
 
                 } 
             },
@@ -209,7 +211,7 @@ let data2 = {
             },
             
             animation: false,
-            spanGaps: true,
+            // spanGaps: true,
             showLine: true,
             normalized: false,
             parsing: false,
@@ -283,6 +285,8 @@ fetch(URL, {
 
     //graph
     let freq = data.freq
+    let H1 = data.H1
+    let angle = data.angle
     let coh = data.coh
     
     pointData1 = []
@@ -290,21 +294,14 @@ fetch(URL, {
     pointData3 = []
 
     for (let i = 0; i < freq.length; ++i) {
-        // pointData1.push({ x: i, y: null });
-        // pointData2.push({ x: i, y: null });
-        // pointData1.push({ x: freq[i], y: coh[i] });
-        // pointData2.push({ x: freq[i], y: coh[i] });
+        pointData1.push({ x: freq[i], y: H1[i] });
+        pointData2.push({ x: freq[i], y: angle[i] });
         pointData3.push({ x: freq[i], y: coh[i] });
         };
     console.log(pointData3)
-
-        // // console.log(myChart3.data.datasets[0].data)
-        // updateCart(myChart1, pointData1)
-        // updateCart(myChart2, pointData2)
     
-    
-    // updateCart(myChart1, pointData1)
-    // updateCart(myChart2, pointData2)
+    updateCart(myChart1, pointData1)
+    updateCart(myChart2, pointData2)
     updateCart(myChart3, pointData3)
 
 })
@@ -315,7 +312,7 @@ files.forEach(element =>
     document.getElementById(element).addEventListener("click", function(){get_json(element)})
     )
    
-    
+   
     
 zacetek.addEventListener("change", function(){UpdateChart(zacetek)});
 konec.addEventListener("change", function(){UpdateChart(konec)});
