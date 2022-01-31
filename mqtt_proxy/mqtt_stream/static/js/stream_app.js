@@ -21,7 +21,7 @@ function Duration() {
     if (document.getElementById('duration').checked) {
         document.getElementById('cas-trajanja').style.display = 'flex';
     } 
-    else if(document.getElementById('stream').checked) {
+    else if(document.getElementById('stream').checked || document.getElementById('triger').checked) {
         document.getElementById('cas-trajanja').style.display = 'none';
    }
 }
@@ -93,7 +93,7 @@ for (let i = 0; i < NUM_POINTS; ++i) {
 const data1 = {
     //labels: labels,
     datasets: [{
-        label: 'Vhod',
+        label: 'Kanal 1',
         backgroundColor: 'rgb(48, 59, 156)',
         borderColor: 'rgb(48, 59, 156)',
         data: pointData1,
@@ -127,8 +127,8 @@ let config1 = {
             },
             y: {
                 type: 'linear',
-                min: -3,
-                max: 3,
+                min: -30,
+                max: 30,
                 title: {
                     display: true,
                     text: 'Sila [N]'
@@ -149,7 +149,7 @@ let config1 = {
 const data2 = {
     //labels: labels,
     datasets: [{
-        label: 'Izhod',
+        label: 'Kanal 2',
         backgroundColor: 'rgb(255, 99, 132)',
         borderColor: 'rgb(255, 99, 132)',
         data: pointData1,
@@ -182,8 +182,8 @@ let config2 = {
             },
             y: {
                 type: 'linear',
-                min: -3,
-                max: 3,
+                min: -6.4,
+                max: 6.4,
                 title: {
                     display: true,
                     text: 'Pospešek [g]'
@@ -247,8 +247,8 @@ chatSocket.onmessage = function(e) {
     }
 
     for (let i = 0; i < NUM_POINTS; ++i) {
-        pointData1[i].y = channel1[i]*3/(2**15)
-        pointData2[i].y = channel2[i]*3/(2**15)
+        pointData1[i].y = channel1[i]*3/(0.1*2**15)
+        pointData2[i].y = channel2[i]*3/(0.47*2**15)
         // pointData1.push({ x: i, y: channel1[i] });
         // pointData2.push({ x: i, y: channel2[i] });
     }

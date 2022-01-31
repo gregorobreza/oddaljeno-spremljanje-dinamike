@@ -106,8 +106,8 @@ let data2 = {
         //labels: labels,
         datasets: [{
             label: 'Kot',
-            backgroundColor: 'rgb(255, 99, 132)',
-            borderColor: 'rgb(255, 99, 132)',
+            backgroundColor: 'rgb(24, 186, 78)',
+            borderColor: 'rgb(24, 186, 78)',
             data: pointData1,
             radius: 0,
         }]
@@ -118,12 +118,16 @@ let data2 = {
         data: data2,
         options: {
             plugins: {
-                decimation: decimation,
+                // decimation: decimation,
                 legend:{
                     display:false
                 }
             },
             locale: 'fr-FR',
+            interaction: {
+                intersect: false,
+                mode: 'index',
+              },
             scales: {
                 x: {
                     type: 'linear',
@@ -149,7 +153,7 @@ let data2 = {
             },
             
             animation: false,
-            spanGaps: true,
+            // spanGaps: true,
             showLine: true,
             normalized: false,
             parsing: false,

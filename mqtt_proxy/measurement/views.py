@@ -56,6 +56,7 @@ def download_file(request, path):
 
 @login_required
 def delete_measurement(request, measurement):
+    measurement.replace(" ","_")
     object = Measurement.objects.get(title=measurement)
     object.delete()
     return redirect("measurements")

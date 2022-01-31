@@ -39,10 +39,13 @@
           <div class="input-group" id="nacin">
             
             <input id="stream" name="mode" type="radio" value="stream" checked/>
-            <label class="inline" for="mode-stream">Časovno neomejen</label>
+            <label class="inline" for="mode-stream">Neomejen</label>
             
             <input id="duration" name="mode" type="radio" value="duration"/>
             <label class="inline" for="mode-duration">Časovno omejen</label>
+
+            <input id="triger" name="mode" type="radio" value="save-triger"/>
+            <label class="inline" for="mode-duration">Triger</label>
           </div>
     
           <div class="input-group" id="cas-trajanja">
@@ -95,6 +98,18 @@
             <input id="segments" name="segments" type="number"/>
           </div>
 
+          <label for="save">Shrani zajem kanala:</label>
+          <div class="input-group radio">
+            <div>
+              <input id="save-yes" name="zajem" type="radio" value="yes"/>
+              <label class="inline" for="zajem">Da</label>
+            </div>
+            <div>          
+              <input id="save-no" name="zajem" type="radio" value="no" checked/>
+              <label class="inline" for="zajem">Ne</label>
+            </div>
+          </div>
+
           {% comment %} <div class="input-group">
             <label for="chunk">Velikost buferja:</label>
             <input id="chunk" name="chunk" type="number"/>
@@ -105,7 +120,9 @@
             <input id="stop-stream" name="stop" type="submit" value="Ustavi">
           </div>
         </form>
+
     </div>
+    
     <div class="file-list">
       <h2>Meritev na napravi</h2>
       <p>Tu si lahko ogledate pretekle meritve shranjene na naprav. S klikom na njih jih shranite v spletno aplikacijo, ter si jih ogledate v vaših meritvah.</p>
