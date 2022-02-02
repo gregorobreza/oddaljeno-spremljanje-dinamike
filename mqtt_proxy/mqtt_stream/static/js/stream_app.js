@@ -5,16 +5,11 @@ const roomName = JSON.parse(document.getElementById('room-name').textContent);
 
 
 document.getElementById('segments').value = '10';
-// document.getElementById('stream').value = '10';
-// document.getElementById('duration').value = '10';
-
 
 
 function displaySegments(id, elementValue) {
     document.getElementById(id).style.display = elementValue.value == "welch" ? 'flex' : 'none';
  }
-
-
 
 
 function Duration() {
@@ -39,10 +34,8 @@ Segments()
 Duration()
 document.getElementById("nacin").addEventListener("click", Duration);
 
+
 //grafi
-
-
-
 
 let measurements = new Array
 
@@ -118,6 +111,7 @@ let config1 = {
                     maxRotation: 0,
                     minRotation: 0,
                     autoSkip: true,
+                    display: false
 
                 },
                 title: {
@@ -174,11 +168,13 @@ let config2 = {
                     maxRotation: 0,
                     minRotation: 0,
                     autoSkip: true,
+                    display: false
                 },
                 title: {
                     display: true,
                     text: 'Čas'
-                  }
+                  },
+
             },
             y: {
                 type: 'linear',
@@ -216,7 +212,9 @@ function updateCart(chart, points) {
     chart.update()
 }
 
-//websockets
+
+
+// inicializacija websockets
 const chatSocket = new WebSocket(
     'ws://'
     + window.location.host
@@ -224,42 +222,35 @@ const chatSocket = new WebSocket(
     + roomName
     + '/data/'
 );
-
+// definicija tipa sporocil
 chatSocket.binaryType = "arraybuffer"
 
-
-
+// ko je paket prejet
 chatSocket.onmessage = function(e) {
+    // pretvorimo bufer v cela stevila
     let bytearray = new Int16Array(e.data);
     let normalArray = Array.from(bytearray);
 
     let channel1 = []
     let channel2 = []
-    //updateCart(myChart1)
-    //updateCart(myChart2)
+    // locimo kanala
     for (let i = 0; i < normalArray.length; ++i) {
         if (i%2){
             channel1.push(normalArray[i]);
         }else{
             channel2.push(normalArray[i]);
         }
-
     }
-
+    // napolnimo objekt s podatki
     for (let i = 0; i < NUM_POINTS; ++i) {
         pointData1[i].y = channel1[i]*3/(0.1*2**15)
         pointData2[i].y = channel2[i]*3/(0.47*2**15)
-        // pointData1.push({ x: i, y: channel1[i] });
-        // pointData2.push({ x: i, y: channel2[i] });
+
     }
+    // posodobimo ze prej definirane grafe
     updateCart(myChart1, pointData1)
     updateCart(myChart2, pointData2)
-    // updateCart(myChart1, channel1)
-    // updateCart(myChart2, channel2)
-    //console.log(pointData1)
-    //console.log(pointData2)
-    //const data = JSON.parse(e.data);
-    //document.querySelector('#chat-log').value += (data.message + '\n');
+
 };
 
 chatSocket.onclose = function(e) {
@@ -362,46 +353,17 @@ function handleFormSubmit(event) {
     formJSON["format"] = "int16"
     formJSON["channels"] = 2
 
-    // NUM_POINTS = formJSON["chunk"];
-    // pointData1 = [];
-    // pointData2 = [];
-
-
-    // for (let i = 0; i < NUM_POINTS; ++i) {
-    //     pointData1.push({ x: i, y: null });
-    //     pointData2.push({ x: i, y: null });
-    //     };
-    // config["options"]["scales"]["x"]["max"] = NUM_POINTS
     message = new Paho.MQTT.Message(JSON.stringify(formJSON));
     message.destinationName = roomName+"/control";
     client.send(message);
-    // chatSocket.send(JSON.stringify({
-    //     'message': formJSON
-    // }));
+
     console.log(formJSON);
-    //const results = document.querySelector('.results pre');
-    //results.innerText = JSON.stringify(formJSON, null, 2);
   }
   
   const form = document.querySelector('.contact-form');
   form.addEventListener('submit', handleFormSubmit);
 
 
-
-
-// document.querySelector("#chunk-6000").addEventListener("input", function(event) {
-//     NUM_POINTS = 6000
-//     for (let i = 0; i < NUM_POINTS; ++i) {
-//         pointData1.push({ x: i, y: null });
-//         pointData2.push({ x: i, y: null });
-//         };
-//     console.log(NUM_POINTS)
-//     config1.options.scales.x.max = NUM_POINTS
-//     config2.options.scales.x.max = NUM_POINTS
-//     updateCart(myChart1, pointData1)
-//     updateCart(myChart2, pointData2)
-// });
-//refresh.addEventListener("submit", sendMessage("list_files", "/check/measurements"))
 
 
 

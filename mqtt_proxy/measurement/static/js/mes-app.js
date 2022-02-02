@@ -7,7 +7,7 @@ const frameRate = document.querySelector("#meritev").children[1]
 const duration = document.querySelector("#meritev").children[2]
 const date = document.querySelector("#meritev").children[3]
 const method = document.querySelector("#meritev").children[4]
-const mode = document.querySelector("#meritev").children[5]
+
 
 const zacetek = document.getElementById('input-number-1');
 const konec = document.getElementById('input-number-2');
@@ -25,21 +25,11 @@ let pointData1 = [];
 let pointData2 = [];
 let pointData3 = [];
 
-
-
-
 const decimation = {
     enabled: false,
     // algorithm: 'min-max',
 
 };
-
-
-// for (let i = 0; i < NUM_POINTS; ++i) {
-//     pointData1.push({ x: i, y: null });
-//     pointData2.push({ x: i, y: null });
-//     pointData3.push({ x: i, y: null });
-//     };
 
 
 let data1 = {
@@ -238,32 +228,17 @@ let data2 = {
         config3
       );
 
-    // let myChartInput = new Chart(
-    //   document.getElementById('myChart-input'),
-    //   config2
-    // );
-
-    // let myChartOutput = new Chart(
-    //     document.getElementById('myChart-output'),
-    //     config3
-    //   );
-
-
 
       function updateCart(chart, points) {
         chart.data.datasets[0].data = points;
         chart.update();}
 
-//AJAX
+//AJAX funkcija, k ise izvede ob kliku na gumb prikazi
 
 function get_json(file){
-
     let URL = "download/" + file
-
     let json_file_name = file.split("/")[1]
     let npz_file_name = json_file_name.split(".")[0] +".npz"
-    console.log(json_file_name)
-    console.log(npz_file_name)
 
 
 fetch(URL, {
@@ -273,13 +248,11 @@ fetch(URL, {
     },
 })
 .then(response => {
-    return response.json() //Convert response to JSON
-    
+    // odziv
+    return response.json() 
 })
 .then(data => {
-    //Perform actions with the response data from the view
-    console.log(data)
-
+    //izvedba dejanj s prejetimi podatki
     download_json.href = window.location + "download_file/" + json_file_name
     download_npz.href = window.location + "download_file/" + npz_file_name
     imeMeritve.textContent = "Meritev: " + data.info["name"]
@@ -287,9 +260,8 @@ fetch(URL, {
     duration.textContent = "Trajanje zajema: " + data.info["duration"] + "s"
     method.textContent = "Uporabljena metoda: Welch's (število segmentov: " + data.info["segments"]+")" 
     date.textContent = "Datum meritve: " + data.info["date"]
-    mode.textContent = "Način zajema: " + data.info["mode"]
 
-    //graph
+    // definicija spreemnljivk na podlagi prejetih podatkov
     let freq = data.freq
     let H1 = data.H1
     let angle = data.angle
@@ -298,18 +270,16 @@ fetch(URL, {
     pointData1 = []
     pointData2 = []
     pointData3 = []
-
+    // dodajanje podatkov v objekte
     for (let i = 0; i < freq.length; ++i) {
         pointData1.push({ x: freq[i], y: H1[i] });
         pointData2.push({ x: freq[i], y: angle[i] });
         pointData3.push({ x: freq[i], y: coh[i] });
         };
-    console.log(pointData3)
-    
+    // posodobitev zgoraj definiranih grafov
     updateCart(myChart1, pointData1)
     updateCart(myChart2, pointData2)
     updateCart(myChart3, pointData3)
-
 })
 
 };
@@ -318,8 +288,7 @@ files.forEach(element =>
     document.getElementById(element).addEventListener("click", function(){get_json(element)})
     )
    
-   
-    
+      
 zacetek.addEventListener("change", function(){UpdateChart(zacetek)});
 konec.addEventListener("change", function(){UpdateChart(konec)});
 

@@ -18,7 +18,6 @@ def dashboard(request):
 def edit(request):
     if request.method == 'POST':
         user_form = UserEditForm(instance=request.user, data=request.POST)
-
         if user_form.is_valid():
             user_form.save()
     else:

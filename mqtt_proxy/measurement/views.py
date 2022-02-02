@@ -10,7 +10,7 @@ import os
 import json
 from django.http import HttpResponse, Http404
 import mimetypes
-# Create your views here.
+
 
 @csrf_exempt
 def upload_file(request, file_name):
@@ -21,7 +21,6 @@ def upload_file(request, file_name):
         else:
             instance = Measurement(title=title, json_file = request.FILES["file1"], npz_file =request.FILES["file2"])
             instance.save()
-
     return HttpResponse(status=201)
 
 @login_required
@@ -31,9 +30,7 @@ def measurements(request):
     return render(request, 'measurements/measurements.html', {'measurements':measurements, "section":"measurements", "files":files_list})
 
 
-
-def ajax_get_view(request, file_name): # May include more arguments depending on URL parameters
-    # Get data from the database - Ex. Model.object.get(...)
+def ajax_get_view(request, file_name):
     file_path = os.path.join(settings.MEDIA_ROOT, "measurements", file_name)
     print(file_path)
     if os.path.exists(file_path):
