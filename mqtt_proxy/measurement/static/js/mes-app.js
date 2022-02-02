@@ -7,6 +7,7 @@ const frameRate = document.querySelector("#meritev").children[1]
 const duration = document.querySelector("#meritev").children[2]
 const date = document.querySelector("#meritev").children[3]
 const method = document.querySelector("#meritev").children[4]
+const mode = document.querySelector("#meritev").children[5]
 
 const zacetek = document.getElementById('input-number-1');
 const konec = document.getElementById('input-number-2');
@@ -286,6 +287,7 @@ fetch(URL, {
     duration.textContent = "Trajanje zajema: " + data.info["duration"] + "s"
     method.textContent = "Uporabljena metoda: Welch's (število segmentov: " + data.info["segments"]+")" 
     date.textContent = "Datum meritve: " + data.info["date"]
+    mode.textContent = "Način zajema: " + data.info["mode"]
 
     //graph
     let freq = data.freq
