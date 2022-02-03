@@ -253,12 +253,13 @@ fetch(URL, {
 })
 .then(data => {
     //izvedba dejanj s prejetimi podatki
+    console.log(data)
     download_json.href = window.location + "download_file/" + json_file_name
     download_npz.href = window.location + "download_file/" + npz_file_name
     imeMeritve.textContent = "Meritev: " + data.info["name"]
     frameRate.textContent = "Frekvenca vzorčenja: " + data.info["rate"] + "Hz"
     duration.textContent = "Trajanje zajema: " + data.info["duration"] + "s"
-    method.textContent = "Uporabljena metoda: Welch's (število segmentov: " + data.info["segments"]+")" 
+    method.textContent = "Uporabljena metoda: Welch's (frekvenčna ločljivost: " + data.info["segments"]+ "Hz"+")" 
     date.textContent = "Datum meritve: " + data.info["date"]
 
     // definicija spreemnljivk na podlagi prejetih podatkov
